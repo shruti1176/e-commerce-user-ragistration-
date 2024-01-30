@@ -1,0 +1,67 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class UserRegistration {
+
+    public static void main(String[] args) {
+        ArrayList<Map<String, String>> usersList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Enter your name:");
+            String name = scanner.nextLine();
+
+            System.out.println("Enter your email address:");
+            String email = scanner.nextLine();
+
+            if (!isValidEmail(email)) {
+                System.out.println("Invalid email format. Please try again.");
+                continue;
+            }
+
+            System.out.println("Enter your password:");
+            String password = scanner.nextLine();
+
+            System.out.println("Enter your shipping address:");
+            String address = scanner.nextLine();
+
+            // Creating a user map and adding it to the list
+            Map<String, String> user = new HashMap<>();
+            user.put("Name", name);
+            user.put("Email", email);
+            user.put("Password", password);
+            user.put("Address", address);
+
+            usersList.add(user);
+
+            System.out.println("User registered successfully!");
+
+            System.out.println("Do you want to register another user? (yes/no)");
+            String continueRegistration = scanner.nextLine().toLowerCase();
+
+            if (!continueRegistration.equals("yes")) {
+                break;
+            }
+        }
+
+        // Displaying registered users
+        System.out.println("\nRegistered Users:");
+        for (Map<String, String> user : usersList) {
+            System.out.println(user);
+        }
+
+        scanner.close();
+    }
+
+    // Email validation using a simple regex pattern
+    private static boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+}
